@@ -1,0 +1,190 @@
+<sdf version='1.7'>
+  <model name='hexapod'>
+    <link name='body'>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='body_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://drake/examples/hexapod_drake/mesh/Body.obj</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='body_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://drake/examples/hexapod_drake/mesh/Body.obj</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint1' type='revolute'>
+      <pose relative_to='body'> -0.07591 -0.14091 0 3.14 0 -0.78381</pose>
+      <parent>body</parent>
+      <child>link1</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.0472</lower>
+          <upper>1.0472</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link1'>
+      <pose relative_to='joint1'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link1_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://drake/examples/hexapod_drake/mesh/Link1.obj</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link1_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://drake/examples/hexapod_drake/mesh/Link1.obj</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint2' type='revolute'>
+      <pose relative_to='link1'>0 0.052 0 0 3.14 0</pose>
+      <parent>link1</parent>
+      <child>link2</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-1.5708</lower>
+          <upper>1.0472</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link2'>
+      <pose relative_to='joint2'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link2_collision'>
+        <pose> 0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://drake/examples/hexapod_drake/mesh/Link2.obj</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link2_visual'>
+        <pose>0 0 -0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://drake/examples/hexapod_drake/mesh/Link2.obj</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint3' type='revolute'>
+      <pose relative_to='link2'>0 0.0645 -0.0145 -1.0472 0 0</pose>
+      <parent>link2</parent>
+      <child>link3</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-0.523599</lower>
+          <upper>2.0944</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link3'>
+      <pose relative_to='joint3'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link3_collision'>
+        <pose>-0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://drake/examples/hexapod_drake/mesh/Link3.obj</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link3_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://drake/examples/hexapod_drake/mesh/Link3.obj</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+
+  </model>
+</sdf>

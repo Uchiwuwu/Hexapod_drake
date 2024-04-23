@@ -1,0 +1,29 @@
+load(
+    "@drake//tools/skylark:drake_cc.bzl",
+    "drake_cc_binary",
+    "drake_cc_googletest",
+    "drake_cc_library",
+)
+
+drake_cc_binary(
+    name = "hexapod_simulation",
+    srcs = [
+        "hexapod_simulation.cc",
+    ],
+    data = [
+        ":urdf",
+        ":mesh",
+    ],
+    deps = [
+        "//common:essential",
+        "//common:add_text_logging_gflags",
+        "//common:find_resource",
+        "//multibody/parsing",
+        "//multibody/plant",
+        "//systems/analysis:simulator",
+        "//systems/framework",
+        "//visualization",
+        "//geometry:drake_visualizer",
+        "@gflags",
+    ],
+)
