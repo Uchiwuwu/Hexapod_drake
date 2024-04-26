@@ -13,6 +13,7 @@ drake_cc_binary(
     data = [
         ":urdf",
         ":mesh",
+        "@drake_models//:jaco_description",
     ],
     deps = [
         "//common:essential",

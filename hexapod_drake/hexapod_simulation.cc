@@ -8,6 +8,7 @@
 #include "drake/systems/framework/diagram.h"
 #include "drake/systems/framework/diagram_builder.h"
 #include "drake/systems/analysis/simulator.h"
+#include "drake/visualization/visualization_config_functions.h"
 
 namespace drake{
 namespace examples{
@@ -18,6 +19,7 @@ using drake::math::RigidTransformd;
 using multibody::MultibodyPlant;
 using Eigen::Translation3d;
 using Eigen::VectorXd;
+using drake::visualization::AddDefaultVisualization;
 
 
 DEFINE_double(time_step, 1.0e-3,
@@ -27,12 +29,6 @@ DEFINE_double(simulation_time,10,
 DEFINE_double(target_realtime_rate,1,
         "Desired rate relative to real time.  See documentation for "
         "Simulator::set_target_realtime_rate() for details.");
-DEFINE_bool(add_gravity,true,
-        "Indicator for whether terrestrial gravity"
-        "(9.81 m/s²) is included or not.");
-DEFINE_double(Kp, 10.0, "Kp");
-DEFINE_double(Ki, 0.1, "Ki");
-DEFINE_double(Kd, 5.0, "Kd");
 DEFINE_string(urdf,"","Name of urdf to load");
 DEFINE_double(penetration_allowance, 1.0E-3, "Allowable penetration (meters).");
 DEFINE_double(stiction_tolerance, 1.0E-3,
@@ -49,6 +45,7 @@ DEFINE_string(contact_approximation, "sap",
               "'similar', 'lagged'");
 
 static const char* const urdf_path = "package://drake/examples/hexapod_drake/urdf/hexapod_description.urdf";
+// static const char* const urdf_path = "package://drake_models/jaco_description/urdf/j2s7s300_sphere_collision.urdf";
 
 int DoMain(){
         DRAKE_DEMAND(FLAGS_simulation_time > 0);
@@ -71,15 +68,22 @@ int DoMain(){
         plant.RegisterCollisionGeometry(plant.world_body(), RigidTransformd(),
                                         geometry::HalfSpace(),
                                         "GroundCollisionGeometry", ground_friction);
+        
+        const drake::multibody::RigidBody<double>& body = 
+                plant.GetBodyByName("body");
+        // plant.AddJoint<multibody::WeldJoint>("weld_body",plant.world_body(), std::nullopt,
+        //                 body, std::nullopt,
+        //                 RigidTransformd(Vector3<double>{0,0,0.05}));
+        // plant.WeldFrames(plant.world_frame(),
+        //                 plant.GetFrameByName("body"));
         plant.Finalize();
+        AddDefaultVisualization(&builder);
         plant.set_penetration_allowance(FLAGS_penetration_allowance);
         plant.set_stiction_tolerance(FLAGS_stiction_tolerance);
 
-        const drake::multibody::RigidBody<double>& body = 
-                plant.GetBodyByName("body");
         DRAKE_DEMAND(body.is_floating());
 
-        geometry::DrakeVisualizerd::AddToBuilder(&builder,scene_graph);
+        // geometry::DrakeVisualizerd::AddToBuilder(&builder,scene_graph);
         std::unique_ptr<systems::Diagram<double>> diagram = builder.Build();
         std::unique_ptr<systems::Context<double>> diagram_context = 
                 diagram->CreateDefaultContext();
@@ -93,7 +97,7 @@ int DoMain(){
         plant.get_actuation_input_port().FixValue(&plant_context, tau);
 
         // Set the pelvis frame P initial pose.
-        const Translation3d X_WP(0.0, 0.0, 0.95);
+        const Translation3d X_WP(0.0, 0.0, 0.005);
         plant.SetFreeBodyPoseInWorldFrame(&plant_context, body, X_WP);
 
         systems::Simulator<double> simulator(*diagram, std::move(diagram_context));
